@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class HomePage extends StatefulWidget {
@@ -10,6 +14,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  double zoomClose = 18.0;
+  Completer<GoogleMapController> _controller = Completer();
+  Location location = Location();
+  bool _serviceEnabled = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
