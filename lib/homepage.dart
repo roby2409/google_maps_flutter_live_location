@@ -18,6 +18,11 @@ class _HomePageState extends State<HomePage> {
   Completer<GoogleMapController> _controller = Completer();
   Location location = Location();
   bool _serviceEnabled = false;
+  late PermissionStatus _permissionGranted;
+  late LocationData? _locationData = LocationData.fromMap({
+    "latitude": 0.0,
+    "longitude": 0.0,
+  });
 
   @override
   Widget build(BuildContext context) {
