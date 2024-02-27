@@ -59,52 +59,81 @@ class _HomePageState extends State<HomePage> {
     bool conditionMap =
         _locationData?.latitude != 0.0 && _locationData?.longitude != 0.0;
     return Scaffold(
-      body: Stack(children: <Widget>[
-        loadingContainer(),
-        Container(
-            alignment: Alignment.bottomLeft,
-            child: Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Container(
-                  height: 20.h,
-                  width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
+        appBar: AppBar(
+          title: const Text('googlemapswithlocation'),
+        ),
+        body: Stack(
+          children: <Widget>[
+            conditionMap
+                ? GoogleMap(
+                    mapType: MapType.normal,
+                    markers: conditionMap
+                        ? {
+                            Marker(
+                              position: LatLng(
+                                _locationData?.latitude ?? 0.0,
+                                _locationData?.longitude ?? 0.0,
+                              ),
+                              markerId: MarkerId('id'),
+                              icon: BitmapDescriptor.defaultMarkerWithHue(
+                                BitmapDescriptor.hueMagenta,
+                              ),
+                            ),
+                          }
+                        : {},
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(
+                        _locationData?.latitude ?? 0.0,
+                        _locationData?.longitude ?? 0.0,
+                      ),
+                      zoom: zoomClose,
+                    ),
+                    onMapCreated: (GoogleMapController controller) {
+                      _controller.complete(controller);
+                    },
+                  )
+                : loadingContainer(),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                height: 20.h,
+                width: MediaQuery.of(context).size.width,
+                padding: EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
                     color: Colors.grey.shade200,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20),
                     ),
-                    border: Border.all(color: Colors.black12, width: 1.5),
-                  ),
-                  child: Center(
-                      child: conditionMap
-                          ? Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Latitude: ${_locationData?.latitude}',
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 18.0),
-                                  ),
-                                  SizedBox(
-                                    height: 2.0,
-                                  ),
-                                  Text(
-                                    'Longitude: ${_locationData?.longitude}',
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 18.0),
-                                  ),
-                                ],
-                              ),
-                            )
-                          : Text('Getting the location...')),
-                ))),
-      ]),
-    );
+                    border: Border.all(color: Colors.black12, width: 1.5)),
+                child: conditionMap
+                    ? Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Latitude: ${_locationData?.latitude}',
+                              style: TextStyle(
+                                  color: Colors.black, fontSize: 18.0),
+                            ),
+                            SizedBox(
+                              height: 2.0,
+                            ),
+                            Text(
+                              'Longitude: ${_locationData?.longitude}',
+                              style: TextStyle(
+                                  color: Colors.black, fontSize: 18.0),
+                            ),
+                          ],
+                        ),
+                      )
+                    : Center(child: const Text('Getting the location...')),
+              ),
+            ),
+          ],
+        ));
   }
 
   Widget loadingContainer() {
