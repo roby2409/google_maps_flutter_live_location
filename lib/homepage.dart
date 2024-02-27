@@ -56,6 +56,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    bool conditionMap =
+        _locationData?.latitude != 0.0 && _locationData?.longitude != 0.0;
     return Scaffold(
       body: Stack(children: <Widget>[
         loadingContainer(),
