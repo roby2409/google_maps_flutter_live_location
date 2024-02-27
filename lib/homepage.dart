@@ -79,7 +79,29 @@ class _HomePageState extends State<HomePage> {
                     ),
                     border: Border.all(color: Colors.black12, width: 1.5),
                   ),
-                  child: Center(child: const Text('Getting the location...')),
+                  child: Center(
+                      child: conditionMap
+                          ? Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Latitude: ${_locationData?.latitude}',
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 18.0),
+                                  ),
+                                  SizedBox(
+                                    height: 2.0,
+                                  ),
+                                  Text(
+                                    'Longitude: ${_locationData?.longitude}',
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 18.0),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Text('Getting the location...')),
                 ))),
       ]),
     );
