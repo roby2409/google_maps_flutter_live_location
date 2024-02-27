@@ -51,7 +51,18 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         _locationData = currentLocation;
       });
+      newCameraPosition();
     });
+  }
+
+  Future<void> newCameraPosition() async {
+    final GoogleMapController controller = await _controller.future;
+    controller.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(
+        target: LatLng(
+          _locationData?.latitude ?? 0.0,
+          _locationData?.longitude ?? 0.0,
+        ),
+        zoom: zoomClose)));
   }
 
   @override
